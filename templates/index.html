@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicFix - Report, Track & Resolve Civic Issues</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="landing-navbar">
+    <div class="nav-container">
+      <div class="nav-logo">🏛️ CivicFix</div>
+      <div class="nav-links">
+        <a href="/login">Login</a>
+        <a href="/signup" class="primary-link">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to CivicFix</h1>
+    <p>
+      Your voice matters! Report civic issues, track progress in real-time,
+      and work together with your local government to build better,
+      cleaner, and safer communities.
+    </p>
+
+    <div class="hero-actions">
+      <a href="/signup" class="hero-btn primary">Get Started Free</a>
+      <a href="/login" class="hero-btn secondary">Login</a>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="stats-section">
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Issues Reported</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">350+</div>
+        <div class="stat-label">Issues Resolved</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">70%</div>
+        <div class="stat-label">Success Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Support Available</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <h2>Why Choose CivicFix?</h2>
+    <p class="section-subtitle">Empowering citizens and government to work together</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>Easy Reporting</h3>
+        <p>Report civic issues in seconds with our simple form. Add photos, location, and priority level.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Real-Time Tracking</h3>
+        <p>Track the status of your reported issues from pending to in-progress to resolved.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏛️</div>
+        <h3>Direct to Government</h3>
+        <p>Issues are routed directly to relevant government departments for faster action.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>Stay Updated</h3>
+        <p>Get notifications when your issue status changes or when it's resolved.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Community Impact</h3>
+        <p>See what issues your neighbors are reporting and join forces for change.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure & Private</h3>
+        <p>Your data is protected.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <h2>How CivicFix Works</h2>
+    <p class="section-subtitle">Simple, transparent, and effective</p>
+
+    <div class="steps-container">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Sign Up</h3>
+        <p>Create your free account as a citizen, government officer, or administrator.</p>
+      </div>
+
+      <div class="step-arrow">→</div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Report Issue</h3>
+        <p>Describe the problem, add location, upload photos, and set priority level.</p>
+      </div>
+
+      <div class="step-arrow">→</div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Government Review</h3>
+        <p>Your issue is assigned to the relevant department for review and action.</p>
+      </div>
+
+      <div class="step-arrow">→</div>
+
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h3>Track & Resolve</h3>
+        <p>Monitor progress in real-time until the issue is marked as resolved.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roles Section -->
+  <section class="roles">
+    <h2>Who Can Use CivicFix?</h2>
+
+    <div class="role-card">
+      <h3>👥 For Citizens</h3>
+      <p>
+        Report issues like garbage overflow, road damage,
+        water leakage, broken streetlights, and more. Track resolution status
+        in real-time and stay informed about your community.
+      </p>
+      <ul class="role-features">
+        <li>✓ Report unlimited civic issues</li>
+        <li>✓ Upload photos as evidence</li>
+        <li>✓ Track issue status updates</li>
+        <li>✓ View community issues feed</li>
+      </ul>
+    </div>
+
+    <div class="role-card">
+      <h3>👨‍💼 For Administrators</h3>
+      <p>
+        Monitor all complaints, manage departments,
+        and approve government officers. Ensure efficient
+        governance and timely issue resolution across the system.
+      </p>
+      <ul class="role-features">
+        <li>✓ Dashboard with analytics</li>
+        <li>✓ Approve government officers</li>
+        <li>✓ Monitor all departments</li>
+        <li>✓ Generate reports</li>
+      </ul>
+    </div>
+
+    <div class="role-card">
+      <h3>🏛️ For Government Officers</h3>
+      <p>
+        View assigned complaints by department, update progress,
+        and resolve issues efficiently. Serve the community
+        with transparency and accountability.
+      </p>
+      <ul class="role-features">
+        <li>✓ Department-wise issue view</li>
+        <li>✓ Update issue status</li>
+        <li>✓ Add resolution notes</li>
+        <li>✓ Priority-based sorting</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Ready to Make a Difference?</h2>
+    <p>Join CivicFix today and help build a better community!</p>
+    <div class="cta-buttons">
+      <a href="/signup" class="hero-btn primary">Sign Up Now</a>
+      <a href="/login" class="hero-btn secondary">Login</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 CivicFix | Built for Better Communities | Academic Project</p>
+    <p class="footer-note">
+      📧 support@civicfix.gov.in | 📞 +91 1800-123-4567
+    </p>
+  </footer>
+
+</body>
+
+</html>

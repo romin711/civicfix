@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officers | CivicFix Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+
+    {% set active_page = 'officers' %}
+    {% include 'admin/navbar.html' %}
+
+    <div class="dash">
+        <header class="page-header">
+            <p class="page-eyebrow">Officer Administration</p>
+            <h1>Government Officers</h1>
+            <p>Review pending requests and maintain the directory of approved officers.</p>
+        </header>
+
+        <section class="stats-grid">
+            <article class="stat-card highlight">
+                <p class="stat-label">Pending Requests</p>
+                <p class="stat-number">{{ pending|length }}</p>
+                <p class="stat-note">Applications to be approved or rejected</p>
+            </article>
+            <article class="stat-card">
+                <p class="stat-label">Approved Officers</p>
+                <p class="stat-number">{{ approved_officers|length }}</p>
+                <p class="stat-note">Government officers with active status</p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Pending Officer Requests</h2>
+                    <p class="section-subtitle">Process new government account requests</p>
+                </div>
+                <span class="badge">{{ pending|length }} pending</span>
+            </div>
+
+            {% if pending|length == 0 %}
+            <div class="empty-state">
+                <h3>No pending requests</h3>
+                <p>Every officer application is already processed.</p>
+            </div>
+            {% else %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Government ID</th>
+                            <th>Department</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for g in pending %}
+                        <tr>
+                            <td><strong>{{ g[1] }}</strong></td>
+                            <td>{{ g[2] }}</td>
+                            <td><code>{{ g[3] }}</code></td>
+                            <td>{{ g[4] if g[4] else 'Not set' }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/approve/{{ g[0] }}" class="btn btn-primary">Approve</a>
+                                    <a href="/admin/reject/{{ g[0] }}" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to reject this application?')">Reject</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </section>
+
+        <section class="panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Approved Officers</h2>
+                    <p class="section-subtitle">Current government officers on the platform</p>
+                </div>
+                <span class="badge">{{ approved_officers|length }} active</span>
+            </div>
+
+            {% if approved_officers|length == 0 %}
+            <div class="empty-state">
+                <h3>No approved officers</h3>
+                <p>Approve a request to add officers here.</p>
+            </div>
+            {% else %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Government ID</th>
+                            <th>Department</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for officer in approved_officers %}
+                        <tr>
+                            <td><strong>#{{ officer[0] }}</strong></td>
+                            <td>{{ officer[1] }}</td>
+                            <td>{{ officer[2] }}</td>
+                            <td><code>{{ officer[3] }}</code></td>
+                            <td>{{ officer[4] if officer[4] else 'Not set' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+
+</body>
+
+</html>

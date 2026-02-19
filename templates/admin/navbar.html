@@ -1,0 +1,20 @@
+<nav class="admin-navbar">
+    <div class="admin-nav-container">
+        <a href="/admin/dashboard" class="admin-logo">
+            <span class="logo-mark">CF</span>
+            <span class="logo-text-block">
+                <span class="logo-title">CivicFix</span>
+                <span class="logo-subtitle">Admin Console</span>
+            </span>
+        </a>
+
+        <div class="admin-nav-links">
+            <a href="/admin/dashboard" class="admin-nav-link {{ 'active' if active_page == 'dashboard' else '' }}">Dashboard</a>
+            <a href="/admin/officers" class="admin-nav-link {{ 'active' if active_page == 'officers' else '' }}">Officers</a>
+            <a href="/admin/citizens" class="admin-nav-link {{ 'active' if active_page == 'citizens' else '' }}">Citizens</a>
+            <a href="/admin/issues" class="admin-nav-link {{ 'active' if active_page == 'issues' else '' }}">Issues</a>
+        </div>
+
+        <a href="/logout" class="admin-logout-btn">Log out</a>
+    </div>
+</nav>

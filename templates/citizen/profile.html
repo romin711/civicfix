@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | CivicFix</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/ui-enhancements.js') }}" defer></script>
+</head>
+
+<body>
+
+  {% include "citizen/navbar.html" %}
+
+  <div class="card profile-card">
+    <div class="profile-header">
+      <h2>👤 My Profile</h2>
+      <a href="/citizen/profile/edit" class="primary-btn profile-edit-link">
+        ✏️ Edit Profile
+      </a>
+    </div>
+
+    <!-- Incomplete Profile Warning -->
+    {% if not user[2] or not user[3] or not user[4] or not user[5] %}
+    <div class="profile-warning">
+      <p>
+        ⚠️ Your profile is incomplete. Please complete your profile to report civic issues.
+      </p>
+    </div>
+    {% endif %}
+
+    <div class="profile-info">
+      <div class="profile-item">
+        <label>Full Name</label>
+        <div class="value">{{ user[0] or 'Not provided' }}</div>
+      </div>
+
+      <div class="profile-item">
+        <label>Email Address</label>
+        <div class="value">{{ user[1] or 'Not provided' }}</div>
+      </div>
+
+      <div class="profile-item">
+        <label>Aadhaar Number</label>
+        <div class="value">{{ user[2] or 'Not provided' }}</div>
+      </div>
+
+      <div class="profile-item">
+        <label>Date of Birth</label>
+        <div class="value">{{ user[3] or 'Not provided' }}</div>
+      </div>
+
+      <div class="profile-item">
+        <label>Gender</label>
+        <div class="value">{{ user[4] or 'Not provided' }}</div>
+      </div>
+
+      <div class="profile-item">
+        <label>Address</label>
+        <div class="value">{{ user[5] or 'Not provided' }}</div>
+      </div>
+    </div>
+  </div>
+
+  {% include "citizen/footer.html" %}
+
+</body>
+
+</html>

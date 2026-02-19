@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/auth-validation.js') }}" defer></script>
+</head>
+
+<body>
+
+  {% include "partials/flash_messages.html" %}
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <div class="auth-left">
+        <h1>CivicFix</h1>
+        <p>Report • Track • Resolve</p>
+      </div>
+
+      <div class="auth-right">
+        <h2>Create Account</h2>
+        <p class="auth-subtext">Create your account and verify your contact details with OTP.</p>
+
+        <form method="POST" class="auth-form" data-auth-validate novalidate>
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input id="signupName" name="name" placeholder="Enter your full name" minlength="3" required>
+            <small class="field-error" data-error-for="name"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="signupEmail">Email Address</label>
+            <input id="signupEmail" type="email" name="email" placeholder="Enter your email" required>
+            <small class="field-error" data-error-for="email"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="signupMobile">Mobile Number</label>
+            <input id="signupMobile" type="tel" name="mobile" placeholder="10-digit number" required pattern="^[789][0-9]{9}" minlength="10" maxlength="10" title="Enter a 10-digit mobile number starting with 7, 8, or 9">
+            <small class="field-error" data-error-for="mobile"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input id="signupPassword" type="password" name="password" placeholder="Create a password" minlength="6" required>
+            <small class="field-error" data-error-for="password"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="role">Account Type</label>
+            <select name="role" id="role" onchange="toggleGov()" required>
+              <option value="citizen">Citizen</option>
+              <option value="government">Government Officer</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="govId" class="hidden" id="govIdLabel">Government Official ID</label>
+            <input name="gov_id" id="govId" class="hidden" placeholder="Enter official ID">
+            <small class="field-error hidden" data-error-for="gov_id"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="govDepartment" class="hidden" id="govDepartmentLabel">Department</label>
+            <select name="department" id="govDepartment" class="hidden">
+              <option value="">Select Department</option>
+              {% for department in departments %}
+              <option value="{{ department }}">{{ department }}</option>
+              {% endfor %}
+            </select>
+            <small class="field-error hidden" data-error-for="department"></small>
+          </div>
+
+          <div class="otp-row">
+            <button type="button" id="otpButton" onclick="generateOTP()">Generate OTP</button>
+            <input name="otp" id="otpField" placeholder="Enter OTP" inputmode="numeric" maxlength="6" minlength="6" required>
+          </div>
+          <p id="otpStatus" class="inline-status" aria-live="polite"></p>
+          <small class="field-error" data-error-for="otp"></small>
+
+          <button type="submit">Sign Up</button>
+        </form>
+
+        <div class="auth-footer">
+          Already have an account?
+          <a href="/login">Login</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="{{ url_for('static', filename='js/signup.js') }}"></script>
+
+</body>
+
+</html>

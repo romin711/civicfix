@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | CivicFix</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+
+  {% set active_page = 'dashboard' %}
+  {% include 'admin/navbar.html' %}
+
+  <div class="dash">
+    <header class="page-header">
+      <p class="page-eyebrow">Administration</p>
+      <h1>Dashboard</h1>
+      <p>Track platform operations, review pending officer requests, and move into key admin workflows quickly.</p>
+    </header>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <p class="stat-label">Approved Officers</p>
+        <p class="stat-number">{{ total_officers }}</p>
+        <p class="stat-note">Government users with active access</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">Citizens</p>
+        <p class="stat-number">{{ total_citizens }}</p>
+        <p class="stat-note">Registered residents on the platform</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">Total Issues</p>
+        <p class="stat-number">{{ total_issues }}</p>
+        <p class="stat-note">Complaints submitted by citizens</p>
+      </article>
+      <article class="stat-card highlight">
+        <p class="stat-label">Pending Approvals</p>
+        <p class="stat-number">{{ pending_count }}</p>
+        <p class="stat-note">Officer requests awaiting review</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Quick Actions</h2>
+          <p class="section-subtitle">Common administrative workflows</p>
+        </div>
+      </div>
+      <div class="action-cards">
+        <a href="/admin/officers" class="action-card">
+          <h3>Manage Officers</h3>
+          <p>Approve pending requests and review all active government officers.</p>
+        </a>
+        <a href="/admin/citizens" class="action-card">
+          <h3>View Citizens</h3>
+          <p>Inspect all registered citizen accounts in one table.</p>
+        </a>
+        <a href="/admin/issues" class="action-card">
+          <h3>Monitor Issues</h3>
+          <p>Filter, analyze, and supervise complaint resolution progress.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Recent Pending Officer Requests</h2>
+          <p class="section-subtitle">Newest applications waiting for approval</p>
+        </div>
+        <a href="/admin/officers" class="view-all-link">View all</a>
+      </div>
+
+      {% if pending|length == 0 %}
+      <div class="empty-state">
+        <h3>No pending requests</h3>
+        <p>All officer applications have been reviewed.</p>
+      </div>
+      {% else %}
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Government ID</th>
+              <th>Department</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for g in pending[:5] %}
+            <tr>
+              <td><strong>{{ g[1] }}</strong></td>
+              <td>{{ g[2] }}</td>
+              <td><code>{{ g[3] }}</code></td>
+              <td>{{ g[4] if g[4] else 'Not set' }}</td>
+              <td>
+                <div class="action-buttons">
+                  <a href="/admin/approve/{{ g[0] }}" class="btn btn-primary">Approve</a>
+                  <a href="/admin/reject/{{ g[0] }}" class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to reject this application?')">Reject</a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </section>
+  </div>
+
+</body>
+
+</html>

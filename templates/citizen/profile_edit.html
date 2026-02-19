@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | CivicFix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/ui-enhancements.js') }}" defer></script>
+</head>
+
+<body>
+
+    {% include "citizen/navbar.html" %}
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div id="flash-container">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">
+            <span class="flash-icon">
+                {% if category == 'success' %}✓{% elif category == 'error' %}✗{% else %}ℹ{% endif %}
+            </span>
+            <span class="flash-text">{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="card profile-card">
+        <h2>✏️ Edit Profile</h2>
+        <p class="form-note mb-3">
+            Complete your profile to report civic issues
+        </p>
+
+        <form method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" value="{{ user[0] }}" class="disabled-input" disabled>
+                <small class="field-help">Name cannot be changed</small>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" value="{{ user[1] }}" class="disabled-input" disabled>
+                <small class="field-help">Email cannot be changed</small>
+            </div>
+
+            <div class="form-group">
+                <label for="aadhaar">Aadhaar Number *</label>
+                <input type="text" id="aadhaar" name="aadhaar" value="{{ user[2] or '' }}"
+                    placeholder="Enter 12-digit Aadhaar number" pattern="[0-9]{12}" maxlength="12" required>
+                <small class="field-help">Must be 12 digits</small>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth *</label>
+                <input type="date" id="dob" name="dob" value="{{ user[3] or '' }}" max="{{ today }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender *</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male" {% if user[4]=='Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if user[4]=='Female' %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if user[4]=='Other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address *</label>
+                <textarea id="address" name="address" rows="3" placeholder="Enter your full address"
+                    required>{{ user[5] or '' }}</textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">💾 Save Profile</button>
+
+            <div class="back-link-wrap">
+                <a href="/citizen/profile" class="back-link">
+                    ← Back to Profile
+                </a>
+            </div>
+        </form>
+    </div>
+
+    {% include "citizen/footer.html" %}
+
+    <script>
+        // Add today's date for date input max attribute
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('dob').setAttribute('max', today);
+    </script>
+
+</body>
+
+</html>

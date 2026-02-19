@@ -1,0 +1,15 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-stack {{ stack_class | default('') }}">
+  {% for category, message in messages %}
+  <div class="flash-message flash-{{ category if category != 'message' else 'info' }}">
+    <span class="flash-icon">{{ '✓' if category == 'success' else '✗' }}</span>
+    <span class="flash-text">{{ message }}</span>
+    {% if show_close is not defined or show_close %}
+    <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}

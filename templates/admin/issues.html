@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues | CivicFix Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+
+<body>
+
+    {% set active_page = 'issues' %}
+    {% include 'admin/navbar.html' %}
+
+    <div class="dash">
+        <header class="page-header">
+            <p class="page-eyebrow">Issue Monitoring</p>
+            <h1>Issues & Complaints</h1>
+            <p>Use filters to find complaints quickly, then review everything in one clean list.</p>
+        </header>
+
+        <section class="stats-grid">
+            <article class="stat-card highlight">
+                <p class="stat-label">{{ 'Filtered Results' if selected_area or selected_status or selected_priority or selected_department else 'Total Issues' }}</p>
+                <p class="stat-number">{{ complaints|length }}</p>
+                <p class="stat-note">Current results in this view</p>
+            </article>
+            {% for stat in status_stats %}
+            <article class="stat-card {% if stat[0] == 'Pending' %}highlight{% endif %}">
+                <p class="stat-label">{{ stat[0] }}</p>
+                <p class="stat-number">{{ stat[1] }}</p>
+                <p class="stat-note">Overall count</p>
+            </article>
+            {% endfor %}
+        </section>
+
+        <section class="panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Advanced Filters</h2>
+                    <p class="section-subtitle">Apply one or more filters to narrow down issue records</p>
+                </div>
+            </div>
+
+            <form method="GET" action="/admin/issues" class="filter-form">
+                <div class="filter-grid">
+                    <div class="form-field">
+                        <label for="area">Area</label>
+                        <select id="area" name="area">
+                            <option value="">All Areas</option>
+                            <option value="Nikol" {% if selected_area=='Nikol' %}selected{% endif %}>Nikol</option>
+                            <option value="Juhapura" {% if selected_area=='Juhapura' %}selected{% endif %}>Juhapura</option>
+                            <option value="Satellite" {% if selected_area=='Satellite' %}selected{% endif %}>Satellite</option>
+                            <option value="Maninagar" {% if selected_area=='Maninagar' %}selected{% endif %}>Maninagar</option>
+                            <option value="Vastrapur" {% if selected_area=='Vastrapur' %}selected{% endif %}>Vastrapur</option>
+                            <option value="Naroda" {% if selected_area=='Naroda' %}selected{% endif %}>Naroda</option>
+                            <option value="Chandkheda" {% if selected_area=='Chandkheda' %}selected{% endif %}>Chandkheda</option>
+                            <option value="Gota" {% if selected_area=='Gota' %}selected{% endif %}>Gota</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="">All Statuses</option>
+                            <option value="Pending" {% if selected_status=='Pending' %}selected{% endif %}>Pending</option>
+                            <option value="In Progress" {% if selected_status=='In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Resolved" {% if selected_status=='Resolved' %}selected{% endif %}>Resolved</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="priority">Priority</label>
+                        <select id="priority" name="priority">
+                            <option value="">All Priorities</option>
+                            <option value="High" {% if selected_priority=='High' %}selected{% endif %}>High</option>
+                            <option value="Medium" {% if selected_priority=='Medium' %}selected{% endif %}>Medium</option>
+                            <option value="Low" {% if selected_priority=='Low' %}selected{% endif %}>Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="department">Department</label>
+                        <select id="department" name="department">
+                            <option value="">All Departments</option>
+                            <option value="Sanitation" {% if selected_department=='Sanitation' %}selected{% endif %}>Sanitation</option>
+                            <option value="Water Supply" {% if selected_department=='Water Supply' %}selected{% endif %}>Water Supply</option>
+                            <option value="Electricity" {% if selected_department=='Electricity' %}selected{% endif %}>Electricity</option>
+                            <option value="Public Works" {% if selected_department=='Public Works' %}selected{% endif %}>Public Works</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    {% if selected_area or selected_status or selected_priority or selected_department %}
+                    <a href="/admin/issues" class="btn btn-ghost">Clear Filters</a>
+                    {% endif %}
+                </div>
+            </form>
+        </section>
+
+        {% if selected_area or selected_status or selected_priority or selected_department %}
+        <div class="active-filters">
+            <strong>Active filters:</strong>
+            {% if selected_area %}<span class="filter-chip">Area: {{ selected_area }}</span>{% endif %}
+            {% if selected_status %}<span class="filter-chip">Status: {{ selected_status }}</span>{% endif %}
+            {% if selected_priority %}<span class="filter-chip">Priority: {{ selected_priority }}</span>{% endif %}
+            {% if selected_department %}<span class="filter-chip">Department: {{ selected_department }}</span>{% endif %}
+        </div>
+        {% endif %}
+
+        <section class="panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Issue List</h2>
+                    <p class="section-subtitle">Complaint records for the selected view</p>
+                </div>
+                {% if complaints|length > 0 %}
+                <span class="badge">{{ complaints|length }} {{ 'result' if complaints|length == 1 else 'results' }}</span>
+                {% endif %}
+            </div>
+
+            {% if complaints|length == 0 %}
+            <div class="empty-state">
+                <h3>No complaints found</h3>
+                <p>
+                    {% if selected_area or selected_status or selected_priority or selected_department %}
+                    No issues match the current filters.
+                    {% else %}
+                    There are currently no complaints in the system.
+                    {% endif %}
+                </p>
+            </div>
+            {% else %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Department</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in complaints %}
+                        <tr>
+                            <td><strong>#{{ c[0] }}</strong></td>
+                            <td><strong>{{ c[1] }}</strong></td>
+                            <td>{{ c[2] }}</td>
+                            <td>{{ c[3] }}</td>
+                            <td><span class="priority-{{ c[4]|lower }}">{{ c[4] }}</span></td>
+                            <td>
+                                <span class="status-indicator status-{{ c[5]|lower|replace(' ', '') }}">{{ c[5] }}</span>
+                            </td>
+                            <td>{{ c[6] if c[6] else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+
+</body>
+
+</html>

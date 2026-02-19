@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citizen Home | CivicFix</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/ui-enhancements.js') }}" defer></script>
+</head>
+
+<body>
+
+  {% include "citizen/navbar.html" %}
+
+  <div class="page-header">
+    <h2>🏘️ Community Issues Feed</h2>
+    <p>Stay informed about civic issues reported by your community members</p>
+  </div>
+
+  {% if issues|length == 0 %}
+  <div class="feed-container">
+    <div class="card empty-card empty-state">
+      <h3 class="empty-title">No issues reported yet</h3>
+      <p class="empty-body">Be the first to report a civic issue in your area!</p>
+      <a href="/citizen/report" class="primary-btn mt-2">Report an Issue</a>
+    </div>
+  </div>
+  {% else %}
+  <div class="feed-container">
+    {% for i in issues %}
+    <div class="card feed-card">
+
+      <div class="issue-header">
+        <h3>{{ i[0] }}</h3>
+        <span class="status {{ i[4]|lower|replace(' ', '-') }}">{{ i[4] }}</span>
+      </div>
+
+      <p class="issue-description">{{ i[1] }}</p>
+
+      <!-- Always display image container for consistent card height -->
+      <div class="issue-image-container">
+        {% if i[5] %}
+        <img src="{{ url_for('static', filename='uploads/' + i[5]) }}" alt="Issue image" class="issue-image">
+        {% else %}
+        <div class="image-placeholder">
+          <span>📷</span>
+          <p>No image</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="issue-meta">
+        <div class="meta-item">
+          <span class="meta-label">📍 Location</span>
+          <span class="meta-value">{{ i[2] }}</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">⚠️ Priority</span>
+          <span class="meta-value priority {{ i[3]|lower }}">{{ i[3] }}</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">📊 Status</span>
+          <span class="meta-value">{{ i[4] }}</span>
+        </div>
+      </div>
+
+      <div class="reporter-info">
+        Reported by <strong>{{ i[6] }}</strong>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% include "citizen/footer.html" %}
+
+</body>
+
+</html>

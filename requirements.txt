@@ -1,0 +1,3 @@
+flask
+# cd /home/meetpatel/ROMIN/LJ_SEM3-main/project/civicfix-starter/civicfix && python app.py
+# qlite3 database/civicfix.db < dummy_data.sql

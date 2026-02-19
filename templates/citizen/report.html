@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Issue | CivicFix</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/ui-enhancements.js') }}" defer></script>
+</head>
+
+<body>
+
+  <!-- Citizen Navbar -->
+  {% include "citizen/navbar.html" %}
+
+  <div class="page-header">
+    <h2>📝 Report a New Issue</h2>
+    <p>Help improve your community by reporting civic problems</p>
+  </div>
+
+  <!-- Card -->
+  <div class="card form-card">
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" class="issue-form">
+
+      <!-- Issue Category -->
+      <div class="form-group">
+        <label>🏷️ Issue Category</label>
+        <select name="type" required>
+          <option value="">Select category</option>
+          <option>Garbage</option>
+          <option>Water</option>
+          <option>Street Light</option>
+          <option>Road</option>
+        </select>
+      </div>
+
+      <!-- Priority -->
+      <div class="form-group">
+        <label>⚠️ Priority Level</label>
+        <select name="priority" required>
+          <option value="">Select priority</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+      </div>
+
+      <!-- Issue Title -->
+      <div class="form-group">
+        <label>📌 Issue Title</label>
+        <input type="text" name="title" placeholder="e.g., Garbage overflow near main gate" required>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label>📄 Detailed Description</label>
+        <textarea name="description" rows="5"
+          placeholder="Describe the issue in detail - What happened? When did you notice it? How severe is it?"
+          required></textarea>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label>📍 Area / Location</label>
+        <select name="location" required>
+          <option value="">Select area in Ahmedabad</option>
+          <option>Nikol</option>
+          <option>Juhapura</option>
+          <option>Satellite</option>
+          <option>Maninagar</option>
+          <option>Vastrapur</option>
+          <option>Naroda</option>
+          <option>Chandkheda</option>
+          <option>Gota</option>
+        </select>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="form-group">
+        <label>📸 Attach Image (Optional)</label>
+        <input type="file" name="image" accept="image/*" class="file-input">
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="submit-btn">
+        Submit Issue Report
+      </button>
+
+    </form>
+
+  </div>
+
+  {% include "citizen/footer.html" %}
+
+</body>
+
+</html>

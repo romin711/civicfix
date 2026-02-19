@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipal Officer Dashboard - CivicFix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/government.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/government-dashboard.js') }}" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div>
+                <h1>Municipal Officer Dashboard</h1>
+                <p class="officer-info">Officer: <strong>{{ officer_name }}</strong> | Department: <strong>{{ department }}</strong></p>
+            </div>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </header>
+
+        {% set stack_class = "local-flash" %}
+        {% include "partials/flash_messages.html" %}
+
+        <!-- Statistics Cards -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Assigned</h3>
+                <p class="stat-number">{{ total }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <p class="stat-number">{{ pending }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>In Progress</h3>
+                <p class="stat-number">{{ in_progress }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Resolved</h3>
+                <p class="stat-number">{{ resolved }}</p>
+            </div>
+        </div>
+
+        <!-- Assigned Complaints Table -->
+        <div class="table-section">
+            <h2>Assigned Complaints</h2>
+            <p class="table-helper">Select a new status, then click <strong>Update</strong>.</p>
+            {% if complaints %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ department[0] }}-{{ "%03d"|format(complaint[0]) }}</td>
+                        <td>{{ complaint[1] }}</td>
+                        <td>{{ complaint[2] }}</td>
+                        <td>
+                            <span class="status-badge status-{{ complaint[3].lower().replace(' ', '-') }}">
+                                {{ complaint[3] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="priority-badge priority-{{ complaint[4].lower() }}">
+                                {{ complaint[4] }}
+                            </span>
+                        </td>
+                        <td>{{ complaint[5] }}</td>
+                        <td>
+                            <form action="/government/update-status/{{ complaint[0] }}" method="POST" class="inline-form status-form">
+                                <select name="status" class="action-dropdown" data-current-status="{{ complaint[3] }}">
+                                    <option value="Pending" {% if complaint[3]=='Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="In Progress" {% if complaint[3]=='In Progress' %}selected{% endif %}>In Progress</option>
+                                    <option value="Resolved" {% if complaint[3]=='Resolved' %}selected{% endif %}>Resolved</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary status-update-btn">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <h3>No complaints assigned yet</h3>
+                <p>New complaints routed to your department will appear here.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

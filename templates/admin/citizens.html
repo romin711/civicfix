@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizens | CivicFix Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+
+    {% set active_page = 'citizens' %}
+    {% include 'admin/navbar.html' %}
+
+    <div class="dash">
+        <header class="page-header">
+            <p class="page-eyebrow">Citizen Directory</p>
+            <h1>Citizens</h1>
+            <p>Review all registered citizen accounts available in CivicFix.</p>
+        </header>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <p class="stat-label">Registered Citizens</p>
+                <p class="stat-number">{{ citizens|length }}</p>
+                <p class="stat-note">Total citizen accounts on this platform</p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Citizen List</h2>
+                    <p class="section-subtitle">Basic account details for registered citizens</p>
+                </div>
+                <span class="badge">{{ citizens|length }} records</span>
+            </div>
+
+            {% if citizens|length == 0 %}
+            <div class="empty-state">
+                <h3>No citizens registered</h3>
+                <p>Citizen accounts will appear here after new signups.</p>
+            </div>
+            {% else %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for citizen in citizens %}
+                        <tr>
+                            <td><strong>#{{ citizen[0] }}</strong></td>
+                            <td>{{ citizen[1] }}</td>
+                            <td>{{ citizen[2] }}</td>
+                            <td class="text-muted">Active</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+
+</body>
+
+</html>
